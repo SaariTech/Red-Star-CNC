@@ -1,0 +1,5 @@
+Software: Blender CAM
+Post Processor: Mach3
+File Format: .tap
+
+The CNC machine will run every .tap file in order from the ./gcode/ directory, with a pause between each file.
