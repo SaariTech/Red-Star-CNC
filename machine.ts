@@ -48,12 +48,10 @@ let max_rpm: number = 10000;
 let lastMap: IMap;
 let pauseOffset: IMap = {x: 0, y: 0, z: 0};
 let commands: string[] = [];
-let pauseCommands: string[] = [];
 let commandIndex: number = 0;
 let rpm: number = 10000;
 let map: IMap[][] = [];
 let pause: boolean = false;
-let pauseIndex: number = 0;
 let pauseMap: IMap;
 let completeDelegate: any = null;
 
