@@ -28,7 +28,7 @@ Red Star CNC är mer än bara ett program – det är en rörelse. Med vår GRBL
 
 ## Programvara
 - **Blender CAM**: För att generera G-code.
-- **Mach3**: enkel och effektiv postprocessor i Blender CAM.
+- **Mach3**: Enkel och effektiv postprocessor i Blender CAM.
 - **Filformat**: `.tap` – enkelt och universellt.
 - **Ubuntu**: Ett fritt och öppet Linux-operativsystem.
 
