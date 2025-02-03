@@ -44,7 +44,7 @@ CNC-maskinen kör varje `.tap`-fil i ordning från `./gcode/`-katalogen, med en 
 2. Installera nödvändliga program `sudo apt install ts-node python3-dev python3-rpi.gpio`
 3. Koppla en switch-knapp mellan GPIO 16 och GND på Raspberry Pi.
 4. Placera alla `.tap`-filer i `./gcode/`-katalogen.
-5. Skicka kommondo `sudo ./start_machine.sh` och låt revolutionen börja!
+5. Skicka kommando `sudo ./start_machine.sh` och låt revolutionen börja!
 
 ---
 
@@ -56,7 +56,7 @@ CNC-maskinen kör varje `.tap`-fil i ordning från `./gcode/`-katalogen, med en 
 ---
 
 ## Bidra till revolutionen
-Vi välkomnar alla som vill bidra till projektet. Oavsett om du är en erfaren utvecklare eller en entusiastisk nybörjare – ditt bidrag är välkmna!  
+Vi välkomnar alla som vill bidra till projektet. Oavsett om du är en erfaren utvecklare eller en entusiastisk nybörjare – ditt bidrag är välkomna!  
 
 Tillsammans bygger vi en bättre framtid!
 
