@@ -1,7 +1,7 @@
 const SerialPort = require("serialport").SerialPort;
 const fs = require("fs");
 
-const DEBUG_NO_SPIN = true;
+const DEBUG_NO_SPIN = false;
 
 const c_yellow = "\x1b[33m";
 const c_white = "\x1b[37m";
