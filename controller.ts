@@ -34,6 +34,7 @@ function ReadNextFile()
 		}
 		else
 		{
+			fileIndex++;
 			console.log('Maskin: Ignorerar ' + files[fileIndex - 1]);
 			ReadNextFile();
 		}
