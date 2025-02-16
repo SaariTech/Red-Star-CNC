@@ -228,7 +228,7 @@ async function Send(command: string, index: number, length: number, status: stri
 		Log(status, command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
 
 		const d = command.split(' ');
-		if(d.length > 1 && d[1][0] == 'G')
+		if(d.length > 1)
 		{
 			for(let j = 0; j < d.length; j++)
 			{
