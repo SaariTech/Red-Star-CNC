@@ -60,8 +60,7 @@ function ReadNextFile()
 		}
 	else
 	{
-		console.log("start");
-		//machine.Start(null, 0);
+		machine.Start(null, 0);
 	}
 }
 

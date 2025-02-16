@@ -45,7 +45,13 @@ export function Connect(readyCallback: any)
 				setTimeout(() => {
 					console.log('  Startar om 1 sekunder', c_fill);
 					setTimeout(() => {
-						readyCallback();					
+						console.log('', c_fill);
+						console.log('☆ Revolutionen börjar!', c_fill);
+						console.log('', c_fill);
+						setTimeout(() => {
+							console.log('', c_fill);
+							readyCallback();
+						}, 1000);				
 					}, 1000);
 				}, 1000);
 			}, 1000);
