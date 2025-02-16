@@ -12,34 +12,35 @@ const fs = require("fs");
 fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
 
 let files: string[] = [];
-let fileIndex: Number = 0;
+let fileIndex: number = 0;
 
 function ProcessGcodeFiles()
 {
     files = fs.readdirSync('./gcode');
-	
-	console.log(files);	
-	for (const file of files)
-	{
-	}
-			
+	ReadNextFile();
 	//machine.Start(null, 0);
 }
 
-/*
 function ReadNextFile()
 {
-	console.log('Maskin: Kontrollerar ' + file);
-	if (file.indexOf('.gcode') != -1)
+	if(fileIndex < files.length)
 	{
-		console.log('Maskin: OK');
-		machine.ExpandFromFile('./gcode/' + file, ReadNextFile);
+		console.log('Maskin: Kontrollerar ' + files[fileIndex]);
+		if (files[fileIndex].indexOf('.gcode') != -1)
+		{
+			console.log('Maskin: OK');
+			machine.ExpandFromFile('./gcode/' + files[fileIndex], ReadNextFile);
+		}
+		else
+		{
+			console.log('Maskin: Ignorerar ' + files[fileIndex]);
+		}
+		fileIndex++;
 	}
 	else
 	{
-		console.log('Maskin: Ignorerar ' + file);
+		console.log("start");
 	}
 }
-*/
 
 ProcessGcodeFiles();
