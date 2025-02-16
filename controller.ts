@@ -15,8 +15,14 @@ setTimeout(() => {
 	const files = fs.readdirSync('./gcode');
 	files.forEach((file: string) => {
 		console.log('Maskin: Kontrollerar ' + file);
-		if (file.indexOf('.gcode') != -1) {
+		if (file.indexOf('.gcode') != -1)
+		{
+			console.log('Maskin: OK');
 			machine.ExpandFromFile('./gcode/' + file);
+		}
+		else
+		{
+			console.log('Maskin: Ignorerar ' + file);
 		}
 	});	
 	machine.Start(null, 0);
