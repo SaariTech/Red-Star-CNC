@@ -38,9 +38,21 @@ export function Connect(readyCallback: any)
 		console.log('  USB Port:', usbPort.path + c_fill);
 		console.log('  Baud Rate:', usbPort.baudRate + c_fill);
 		console.log(c_fill);
-		readyCallback();
+		setTimeout(() => {
+			console.log('  Startar om 3 sekunder', c_fill);
+			setTimeout(() => {
+				console.log('  Startar om 2 sekunder', c_fill);
+				setTimeout(() => {
+					console.log('  Startar om 1 sekunder', c_fill);
+					setTimeout(() => {
+						readyCallback();					
+					}, 1000);
+				}, 1000);
+			}, 1000);
+		}, 1000);
 	});
 }
+
 
 interface IMap
 {
