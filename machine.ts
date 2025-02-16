@@ -149,7 +149,7 @@ export function ExpandFromFile(file: string, callback: any = null)
 
 				let buildString = d[0];
 
-				for(let s = 1; s < d.length; d++)
+				for(let s = 1; s < d.length; s++)
 					buildString += ' ' + d[s];
 
 				AddCommands(buildString);
