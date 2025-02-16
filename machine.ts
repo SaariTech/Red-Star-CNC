@@ -87,69 +87,67 @@ export function AddCommands(command: string)
 	commands.push(command);
 }
 
-export function ExpandFromFile(file: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-        fs.readFile(file, 'utf8', (error: any, data: string) => {
-            if (error)
+export function ExpandFromFile(file: string, callback: any)
+{
+	fs.readFile(file, 'utf8', (error: any, data: string) => {
+		if (error)
+		{
+			console.log(error);
+			return;
+		}
+
+		pauseMap = { x: 0, y: 0, z: 0 };
+		lastMap = { x: 0, y: 0, z: 0 };
+
+		const gcode: string[] = data.split('\n');
+		let i = 0;
+
+		for (; i < gcode.length; i++)
+		{
+			if(gcode[i].indexOf('(') != -1)
+				continue;
+
+			const d = gcode[i].split(' ');
+			if (d.length > 1)
 			{
-                console.log(error);
-                reject(error);
-                return;
-            }
+				for (let j = 0; j < d.length; j++) {
+					switch (d[j][0]) {
+						case 'X':
+							const x = Number(d[j].replace('X', ''));
+							if (pauseMap.x < x)
+								pauseMap.x = x;
+							break;
+						case 'Y':
+							const y = Number(d[j].replace('Y', ''));
+							if (pauseMap.y < y)
+								pauseMap.y = y;
+							break;
+						case 'S':
+							rpm = Number(d[j].replace('S', ''));
+							if (rpm > max_rpm)
+								rpm = max_rpm;
 
-            pauseMap = { x: 0, y: 0, z: 0 };
-            lastMap = { x: 0, y: 0, z: 0 };
+							d[j] = 'S' + rpm.toString();
+							break;
+					}
+				}
 
-            const gcode: string[] = data.split('\n');
-            let i = 0;
+				let buildString = d[0];
 
-            for (; i < gcode.length; i++)
-			{
-				if(gcode[i].indexOf('(') != -1)
-					continue;
+				for (let s = 1; s < d.length; s++)
+					buildString += ' ' + d[s];
 
-                const d = gcode[i].split(' ');
-                if (d.length > 1)
-				{
-                    for (let j = 0; j < d.length; j++) {
-                        switch (d[j][0]) {
-                            case 'X':
-                                const x = Number(d[j].replace('X', ''));
-                                if (pauseMap.x < x)
-                                    pauseMap.x = x;
-                                break;
-                            case 'Y':
-                                const y = Number(d[j].replace('Y', ''));
-                                if (pauseMap.y < y)
-                                    pauseMap.y = y;
-                                break;
-                            case 'S':
-                                rpm = Number(d[j].replace('S', ''));
-                                if (rpm > max_rpm)
-                                    rpm = max_rpm;
+				AddCommands(buildString);
+			}
+		}
 
-                                d[j] = 'S' + rpm.toString();
-                                break;
-                        }
-                    }
+		AddCommands('G00 Z' + pauseOffset.z.toString());
+		AddCommands('G00 X' + (pauseMap.x + pauseOffset.x).toString() + ' Y' + (pauseMap.y + pauseOffset.y).toString());
+		AddCommands('PAUSE');
 
-                    let buildString = d[0];
-
-                    for (let s = 1; s < d.length; s++)
-                        buildString += ' ' + d[s];
-
-                    AddCommands(buildString);
-                }
-            }
-
-            AddCommands('G00 Z' + pauseOffset.z.toString());
-            AddCommands('G00 X' + (pauseMap.x + pauseOffset.x).toString() + ' Y' + (pauseMap.y + pauseOffset.y).toString());
-            AddCommands('PAUSE');
-
-            Log('Maskin', 'Utökat Gcode från "' + file + '"');
-            resolve(); // Vi anropar resolve när filen har bearbetats klart
-        });
-    });
+		Log('Maskin', 'Utökat Gcode från "' + file + '"');
+		callback();
+	});
 }
 
 
