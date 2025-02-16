@@ -14,6 +14,10 @@ fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
 let files: string[] = [];
 let fileIndex: number = 0;
 
+function sleep(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
 function Log(status: string, data: string)
 {
 	console.log(c_white + c_yellow + ' ' + DateNow() + ' ' + c_white + status + ':', data + c_fill);
@@ -32,6 +36,10 @@ function DateNow(): string
 
 function ProcessGcodeFiles()
 {
+	while(!machine.Ready())
+	{
+		sleep(10);
+	}
     files = fs.readdirSync('./gcode');
 	ReadNextFile();
 	//machine.Start(null, 0);
