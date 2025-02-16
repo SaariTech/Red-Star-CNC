@@ -29,13 +29,14 @@ function ReadNextFile()
 		if (files[fileIndex].indexOf('.gcode') != -1)
 		{
 			console.log('Maskin: OK');
-			machine.ExpandFromFile('./gcode/' + files[fileIndex], ReadNextFile);
+			fileIndex++;
+			machine.ExpandFromFile('./gcode/' + files[fileIndex - 1], ReadNextFile);
 		}
 		else
 		{
-			console.log('Maskin: Ignorerar ' + files[fileIndex]);
+			console.log('Maskin: Ignorerar ' + files[fileIndex - 1]);
+			ReadNextFile();
 		}
-		fileIndex++;
 	}
 	else
 	{
