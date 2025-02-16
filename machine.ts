@@ -35,7 +35,7 @@ usbPort.on("open", function()
 	console.log('  USB Port:', usbPort.path + c_fill);
 	console.log('  Baud Rate:', usbPort.baudRate + c_fill);
 	console.log(c_fill);
-	ready = true;
+	readyCallback();
 });
 
 interface IMap
@@ -55,7 +55,7 @@ let map: IMap[][] = [];
 let pause: boolean = false;
 let pauseMap: IMap;
 let completeDelegate: any = null;
-let ready: boolean = false;
+let readyCallback: any;
 
 pauseOffset.x = 5;
 pauseOffset.y = 5;
@@ -78,9 +78,9 @@ setInterval(()=> {
 	}
 }, 1000);
 
-export function Ready(): boolean
+export function Ready()
 {
-	return ready;
+	
 }
 
 export function ClearCommands()

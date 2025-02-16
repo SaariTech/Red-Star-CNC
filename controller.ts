@@ -7,6 +7,8 @@ const c_fill = '\x1B[K';
 console.log(c_yellow + ' ' + c_red_background + c_fill);
 
 const machine = require("./machine");
+machine.Ready(ProcessGcodeFiles);
+
 const fs = require("fs");
 
 fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
@@ -36,13 +38,8 @@ function DateNow(): string
 
 function ProcessGcodeFiles()
 {
-	while(!machine.Ready())
-	{
-		sleep(1000);
-	}
     files = fs.readdirSync('./gcode');
 	ReadNextFile();
-	//machine.Start(null, 0);
 }
 
 function ReadNextFile()
@@ -51,22 +48,21 @@ function ReadNextFile()
 	{
 		Log('Maskin', files[fileIndex]);
 		if (files[fileIndex].indexOf('.gcode') != -1)
-		{
-			Log('Maskin', 'OK');
-			fileIndex++;
-			machine.ExpandFromFile('./gcode/' + files[fileIndex - 1], ReadNextFile);
+			{
+				Log('Maskin', 'OK');
+				fileIndex++;
+				machine.ExpandFromFile('./gcode/' + files[fileIndex - 1], ReadNextFile);
+			}
+			else
+			{
+				fileIndex++;
+				Log('Maskin', 'Ignorerar ' + files[fileIndex - 1]);
+				ReadNextFile();
+			}
 		}
-		else
-		{
-			fileIndex++;
-			Log('Maskin', 'Ignorerar ' + files[fileIndex - 1]);
-			ReadNextFile();
-		}
-	}
 	else
 	{
 		console.log("start");
+		//machine.Start(null, 0);
 	}
 }
-
-ProcessGcodeFiles();
