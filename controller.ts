@@ -12,7 +12,7 @@ const fs = require("fs");
 setTimeout(() => {
 	setTimeout(() => {
 		fs.readdirSync('./gcode').forEach((file: string) => {
-			if(file.indexOf('.tap') != -1)
+			if(file.indexOf('.gcode') != -1)
 				machine.ExpandFromFile('./gcode/' + file);
 		});
 		setTimeout(() => {
