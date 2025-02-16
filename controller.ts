@@ -38,7 +38,7 @@ function ProcessGcodeFiles()
 {
 	while(!machine.Ready())
 	{
-		sleep(10);
+		sleep(1000);
 	}
     files = fs.readdirSync('./gcode');
 	ReadNextFile();
