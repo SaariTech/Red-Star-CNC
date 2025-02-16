@@ -24,19 +24,23 @@ const usbPort = new SerialPort(
 	}
 );
 
-usbPort.on("open", function()
+
+export function Connect(readyCallback: any)
 {
-	usbPort.on('data', function(data: string)
+	usbPort.on("open", function()
 	{
-		Log('Mottagen', data + c_fill);
-		NextCommand();
+		usbPort.on('data', function(data: string)
+		{
+			Log('Mottagen', data + c_fill);
+			NextCommand();
+		});
+		console.log(c_fill);
+		console.log('  USB Port:', usbPort.path + c_fill);
+		console.log('  Baud Rate:', usbPort.baudRate + c_fill);
+		console.log(c_fill);
+		readyCallback();
 	});
-	console.log(c_fill);
-	console.log('  USB Port:', usbPort.path + c_fill);
-	console.log('  Baud Rate:', usbPort.baudRate + c_fill);
-	console.log(c_fill);
-	readyCallback();
-});
+}
 
 interface IMap
 {
@@ -55,7 +59,6 @@ let map: IMap[][] = [];
 let pause: boolean = false;
 let pauseMap: IMap;
 let completeDelegate: any = null;
-let readyCallback: any;
 
 pauseOffset.x = 5;
 pauseOffset.y = 5;

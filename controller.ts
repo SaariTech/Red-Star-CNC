@@ -7,8 +7,6 @@ const c_fill = '\x1B[K';
 console.log(c_yellow + ' ' + c_red_background + c_fill);
 
 const machine = require("./machine");
-machine.Ready(ProcessGcodeFiles);
-
 const fs = require("fs");
 
 fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
@@ -66,3 +64,5 @@ function ReadNextFile()
 		//machine.Start(null, 0);
 	}
 }
+
+machine.Connect(ProcessGcodeFiles);
