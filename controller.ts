@@ -14,6 +14,22 @@ fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
 let files: string[] = [];
 let fileIndex: number = 0;
 
+function Log(status: string, data: string)
+{
+	console.log(c_white + c_yellow + ' ' + DateNow() + ' ' + c_white + status + ':', data + c_fill);
+}
+
+function DateNow(): string
+{
+	const date = new Date(Date.now());
+
+	const hours = date.getHours().toString().padStart(2, '0');
+	const minutes = date.getMinutes().toString().padStart(2, '0');
+	const seconds = date.getSeconds().toString().padStart(2, '0');
+
+	return `${hours}:${minutes}:${seconds}`;
+}
+
 function ProcessGcodeFiles()
 {
     files = fs.readdirSync('./gcode');
@@ -25,17 +41,17 @@ function ReadNextFile()
 {
 	if(fileIndex < files.length)
 	{
-		console.log('Maskin: Kontrollerar ' + files[fileIndex]);
+		Log('Maskin', files[fileIndex]);
 		if (files[fileIndex].indexOf('.gcode') != -1)
 		{
-			console.log('Maskin: OK');
+			Log('Maskin', 'OK');
 			fileIndex++;
 			machine.ExpandFromFile('./gcode/' + files[fileIndex - 1], ReadNextFile);
 		}
 		else
 		{
 			fileIndex++;
-			console.log('Maskin: Ignorerar ' + files[fileIndex - 1]);
+			Log('Maskin', 'Ignorerar ' + files[fileIndex - 1]);
 			ReadNextFile();
 		}
 	}
