@@ -12,12 +12,12 @@ const fs = require("fs");
 fs.writeFileSync("data/pause.txt", "0", { flag: "w" });
 
 setTimeout(() => {
-	fs.readdirSync('./gcode').forEach((file: string) => {
+	const files = fs.readdirSync('./gcode');
+	files.forEach((file: string) => {
 		console.log('Maskin: Kontrollerar ' + file);
-		if(file.indexOf('.gcode') != -1)
+		if (file.indexOf('.gcode') != -1) {
 			machine.ExpandFromFile('./gcode/' + file);
-	});
-	setTimeout(() => {
-		machine.Start(null, 0);
-	}, 1000);
+		}
+	});	
+	machine.Start(null, 0);
 }, 1000);
