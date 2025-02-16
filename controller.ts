@@ -26,4 +26,4 @@ setTimeout(() => {
 		}
 	});	
 	machine.Start(null, 0);
-}, 1000);
+}, 100);
