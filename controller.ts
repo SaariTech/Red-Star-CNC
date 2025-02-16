@@ -9,7 +9,7 @@ console.log(c_yellow + ' ' + c_red_background + c_fill);
 const machine = require("./machine");
 const fs = require("fs");
 
-fs.writeFileSync("data/pause.txt", "0", { flag: "w" });
+fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
 
 setTimeout(() => {
 	setTimeout(() => {
