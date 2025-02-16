@@ -106,8 +106,21 @@ export function ExpandFromFile(file: string, callback: any = null)
 		for(; i < gcode.length; i++)
 		{
 			const d = gcode[i].split(' ');
-			if(d.length > 1 && d[1][0] == 'G')
+			if(d.length > 1)
 			{
+				let ok = true;
+				for(let c = 0; c < d.length; c++)
+				{
+					if(d[c].indexOf('(') != -1)
+					{
+						ok = false;
+						break;
+					}
+				}
+
+				if(!ok)
+					continue;
+
 				for(let j = 0; j < d.length; j++)
 				{
 					switch(d[j][0])
@@ -122,26 +135,26 @@ export function ExpandFromFile(file: string, callback: any = null)
 							if(pauseMap.y < y)
 								pauseMap.y = y;
 							break;
+						case 'S':
+							rpm = Number(d[j].replace('S', ''));
+					
+							if(rpm > max_rpm)
+								rpm = max_rpm;
+
+							d[j] = 'S' + rpm.toString();
+
+							break;
 					}
 				}
-				AddCommands(gcode[i].replace(d[0], ''));
-			}
-			else if(d.length > 1 && d[2] == 'M03')
-			{
-				if(!DEBUG_NO_SPIN)
-				{
-					rpm = Number(d[1].replace('S', ''));
-					
-					if(rpm > max_rpm)
-						rpm = max_rpm;
-					
-					AddCommands(gcode[i].replace(d[0], ''));
-				}
+
+				let buildString = d[0];
+
+				for(let s = 1; s < d.length; d++)
+					buildString += ' ' + d[s];
+
+				AddCommands(buildString);
 			}
 		}
-
-		if(!DEBUG_NO_SPIN)
-			AddCommands('M5');
 
 		AddCommands('G00 Z' + pauseOffset.z.toString());
 		AddCommands('G00 X' + (pauseMap.x + pauseOffset.x).toString() + ' Y' + (pauseMap.y + pauseOffset.y).toString());
