@@ -100,28 +100,17 @@ export function ExpandFromFile(file: string): Promise<void> {
             pauseMap = { x: 0, y: 0, z: 0 };
             lastMap = { x: 0, y: 0, z: 0 };
 
-			
             const gcode: string[] = data.split('\n');
             let i = 0;
 
             for (; i < gcode.length; i++)
 			{
+				if(gcode[i].indexOf('(') != -1)
+					continue;
+
                 const d = gcode[i].split(' ');
                 if (d.length > 1)
 				{
-                    let ok = true;
-                    for (let c = 0; c < d.length; c++)
-					{
-                        if (d[c].indexOf('(') != -1)
-						{
-                            ok = false;
-                            break;
-                        }
-                    }
-
-                    if (!ok)
-                        continue;
-
                     for (let j = 0; j < d.length; j++) {
                         switch (d[j][0]) {
                             case 'X':

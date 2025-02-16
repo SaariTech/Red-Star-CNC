@@ -9,7 +9,9 @@ console.log(c_yellow + ' ' + c_red_background + c_fill);
 const machine = require("./machine");
 const fs = require("fs");
 
-async function processGcodeFiles()
+fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
+
+async function ProcessGcodeFiles()
 {
     const files = fs.readdirSync('./gcode');
     for (const file of files)
@@ -25,9 +27,8 @@ async function processGcodeFiles()
 			console.log('Maskin: Ignorerar ' + file);
 		}
     }
-	
+
     machine.Start(null, 0);
 }
 
-// Kör funktionen
-processGcodeFiles();
+ProcessGcodeFiles();
