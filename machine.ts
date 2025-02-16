@@ -89,7 +89,6 @@ export function AddCommands(command: string)
 
 export function ExpandFromFile(file: string, callback: any = null)
 {
-	console.log('Maskin: Läser fil "' + file + '"');
 	fs.readFile(file, 'utf8', (error: any, data: string) =>
 	{
 		if(error)
