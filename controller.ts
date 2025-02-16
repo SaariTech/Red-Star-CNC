@@ -9,19 +9,25 @@ console.log(c_yellow + ' ' + c_red_background + c_fill);
 const machine = require("./machine");
 const fs = require("fs");
 
-setTimeout(() => {
-	const files = fs.readdirSync('./gcode');
-	files.forEach((file: string) => {
-		console.log('Maskin: Kontrollerar ' + file);
-		if (file.indexOf('.gcode') != -1)
+async function processGcodeFiles()
+{
+    const files = fs.readdirSync('./gcode');
+    for (const file of files)
+	{
+        console.log('Maskin: Kontrollerar ' + file);
+        if (file.indexOf('.gcode') != -1)
 		{
 			console.log('Maskin: OK');
-			machine.ExpandFromFile('./gcode/' + file);
-		}
+            await machine.ExpandFromFile('./gcode/' + file);
+        }
 		else
 		{
 			console.log('Maskin: Ignorerar ' + file);
 		}
-	});	
-	//machine.Start(null, 0);
-}, 100);
+    }
+	
+    machine.Start(null, 0);
+}
+
+// Kör funktionen
+processGcodeFiles();
