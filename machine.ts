@@ -2,6 +2,7 @@ const SerialPort = require("serialport").SerialPort;
 const fs = require("fs");
 
 const DEBUG_NO_SPIN = false;
+const DEBUG_NO_PAUSE = true;
 
 const c_yellow = "\x1b[33m";
 const c_white = "\x1b[37m";
@@ -46,7 +47,7 @@ export function Connect(readyCallback: any)
 					console.log('  Startar om 1 sekunder', c_fill);
 					setTimeout(() => {
 						console.log('', c_fill);
-						console.log('☆ Revolutionen börjar!', c_fill);
+						console.log('☆ Revolutionen börjar nu!', c_fill);
 						console.log('', c_fill);
 						setTimeout(() => {
 							console.log('', c_fill);
@@ -169,9 +170,16 @@ export function ExpandFromFile(file: string, callback: any)
 			}
 		}
 
-		AddCommands('G00 Z' + pauseOffset.z.toString());
-		AddCommands('G00 X' + (pauseMap.x + pauseOffset.x).toString() + ' Y' + (pauseMap.y + pauseOffset.y).toString());
-		AddCommands('PAUSE');
+		if(!DEBUG_NO_PAUSE)
+		{
+			if(!DEBUG_NO_SPIN)
+				AddCommands('M5');
+	
+			AddCommands('G00 Z' + pauseOffset.z.toString());
+			AddCommands('G00 X' + (pauseMap.x + pauseOffset.x).toString() + ' Y' + (pauseMap.y + pauseOffset.y).toString());
+			AddCommands('PAUSE');
+		}
+
 
 		Log('Maskin', 'Utökat Gcode från "' + file + '"');
 		callback();
