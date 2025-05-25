@@ -60,6 +60,7 @@ function ReadNextFile()
 		}
 	else
 	{
+		machine.AddPause();
 		machine.Start(null, 0);
 	}
 }

@@ -186,6 +186,14 @@ export function ExpandFromFile(file: string, callback: any)
 	});
 }
 
+export function AddPause()
+{
+	AddCommands('M5');
+	AddCommands('G00 Z' + pauseOffset.z.toString());
+	AddCommands('G00 X' + (pauseMap.x + pauseOffset.x).toString() + ' Y' + (pauseMap.y + pauseOffset.y).toString());
+}
+
+
 
 export function Start(setCompleteDelegate: any, startIndex: number = -1)
 {
