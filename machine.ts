@@ -131,11 +131,9 @@ export function ExpandFromFile(file: string, callback: any)
 		const gcode: string[] = data.split('\n');
 		let i = 0;
 
-		AddCommands('S' + max_rpm);
-
 		for (; i < gcode.length; i++)
 		{
-			if(gcode[i].indexOf('(') != -1 || gcode[i].indexOf('M') != -1)
+			if(gcode[i].indexOf('(') != -1)
 				continue;
 
 			const d = gcode[i].split(' ');
