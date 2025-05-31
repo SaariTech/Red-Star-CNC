@@ -135,6 +135,15 @@ export function ExpandFromFile(file: string, callback: any)
 		{
 			if(gcode[i].indexOf('(') != -1)
 				continue;
+			else if(gcode[i].indexOf(';') != -1)
+			{
+				const code = gcode[i].split(';');
+				if(code.length != 2)
+					continue;
+				else
+					gcode[i] = code[0];
+			}
+
 
 			const d = gcode[i].split(' ');
 			if (d.length > 1)
