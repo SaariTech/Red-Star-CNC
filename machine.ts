@@ -34,8 +34,15 @@ export function Connect(readyCallback: any)
 	{
 		usbPort.on('data', function(data: string)
 		{
-			Log('Mottagen', data + c_fill);
-			NextCommand();
+			if(data.indexOf('$') == -1)
+			{
+				Log('Mottagen', data + c_fill);
+				NextCommand();
+			}
+			else
+			{
+				Log('Maskin', data + c_fill);
+			}
 		});
 		console.log(c_fill);
 		console.log('  USB Port:', usbPort.path + c_fill);
