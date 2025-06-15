@@ -298,7 +298,7 @@ function Pad(num: number, size: number)
 
 function Log(status: string, data: string)
 {
-	console.log((c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + status + ': ' data + c_fill).toString().replace('\n', ''));
+	console.log((c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + status + ': ' + data + c_fill).replace('\n', ''));
 }
 
 function WorkTime(): string
