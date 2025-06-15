@@ -346,6 +346,7 @@ function Pad(num: number, size: number): string
 
 function Log(status: string, data: string)
 {
+	log.enqueue('');
 	log.enqueue(c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + ' ' + status + ': ' + data + c_fill);
 	//log.enqueue(DateNow() + ' | ' + WorkTime() + ' ' + status + ': ' + data);
 }
