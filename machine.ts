@@ -312,14 +312,14 @@ async function Send(command: string, index: number, length: number): Promise<voi
 	if(command == "PAUSE")
 	{
 		fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
-		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
+		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString() + c_fill);
 		pause = true;
 		return;
 	}
 
 	usbPort.write(command + '\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
-		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
+		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString() + c_fill);
 
 		const d = command.split(' ');
 		if(d.length > 1)
@@ -346,7 +346,6 @@ function Pad(num: number, size: number): string
 
 function Log(status: string, data: string)
 {
-	log.enqueue('');
 	log.enqueue(c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + ' ' + status + ': ' + data + c_fill);
 	//log.enqueue(DateNow() + ' | ' + WorkTime() + ' ' + status + ': ' + data);
 }
