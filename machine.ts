@@ -38,7 +38,7 @@ class Queue<T> implements IQueue<T>
 	{
 		if (this.size() === this.capacity)
 		{
-			throw Error("Queue has reached max capacity, you cannot add more items");
+			throw Error("Kön har nått maxkapaciteten, du kan inte lägga till fler objekt.");
 		}
 		this.storage.push(item);
 	}
