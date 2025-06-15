@@ -130,7 +130,7 @@ if(DEBUG_NO_SPIN)
 
 setInterval(()=> {
 	while(0 < log.size())
-		console.log(log.dequeue);
+		console.log(log.dequeue());
 
 	if(pause)
 	{
