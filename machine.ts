@@ -231,7 +231,7 @@ export function ExpandFromFile(file: string, callback: any)
 
 		if(!haveSpinlde)
 		{
-			console.log('Inga Spindle data: ' + file);
+			console.log('Inga Spindel data: ' + file);
 			process.exit(0);
 		}
 
