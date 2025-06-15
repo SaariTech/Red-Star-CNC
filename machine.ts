@@ -176,6 +176,8 @@ export function ExpandFromFile(file: string, callback: any)
 		const gcode: string[] = data.split('\n');
 		let i = 0;
 
+		let haveSpinlde = false;
+
 		for (; i < gcode.length; i++)
 		{
 			if(gcode[i].indexOf('(') != -1)
@@ -210,6 +212,9 @@ export function ExpandFromFile(file: string, callback: any)
 							if (rpm > max_rpm)
 								rpm = max_rpm;
 
+							if(rpm > 0)
+								haveSpinlde = true;
+
 							d[j] = 'S' + rpm.toString();
 							break;
 					}
@@ -222,6 +227,12 @@ export function ExpandFromFile(file: string, callback: any)
 
 				AddCommands(buildString);
 			}
+		}
+
+		if(!haveSpinlde)
+		{
+			console.log('Inga Spindle data: ' + file);
+			process.exit(0);
 		}
 
 		if(!DEBUG_NO_PAUSE)
