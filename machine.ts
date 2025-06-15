@@ -58,7 +58,7 @@ export function Connect(readyCallback: any)
 						console.log('', c_fill);
 						setTimeout(() => {
 							console.log('', c_fill);
-							date_start = new Date(Date.now());
+							date_start = Date.now();
 							readyCallback();
 						}, 1000);				
 					}, 1000);
