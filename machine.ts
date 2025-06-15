@@ -280,7 +280,7 @@ async function NextCommand(): Promise<void>
 	commandIndex++;
 	if(commandIndex < commands.length - 1)
 	{
-		Send(commands[commandIndex], commandIndex, commands.length);
+		Send(commands[commandIndex].toString(), commandIndex, commands.length);
 	}
 	else
 	{
@@ -326,11 +326,11 @@ async function Send(command: string, index: number, length: number): Promise<voi
 	});
 }
 
-function Pad(num: number, size: number)
+function Pad(num: number, size: number): string
 {
 	let s = num + '';
 	while (s.length < size) s = '0' + s;
-	return s;
+	return s.toString();
 }
 
 function Log(status: string, data: string)
