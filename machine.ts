@@ -8,7 +8,7 @@ const c_yellow = "\x1b[33m";
 const c_white = "\x1b[37m";
 const c_fill = '\x1B[K';
 
-let date_start;
+let date_start: Date;
 
 console.log('☆                       ☆', c_fill);
 console.log(c_fill);
