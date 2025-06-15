@@ -68,7 +68,7 @@ export function Connect(readyCallback: any)
 		{
 			if(data.indexOf('$') == -1)
 			{
-				Log('Mottagen', data);
+				//Log('Mottagen', data);
 				NextCommand();
 			}
 			else
@@ -317,11 +317,13 @@ async function Send(command: string, index: number, length: number): Promise<voi
 		return;
 	}
 
+	const cmd: string = command;
+
 	usbPort.write(command + '\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
-		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
+		Log('Kommando', cmd + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
 
-		const d = command.split(' ');
+		const d = cmd.split(' ');
 		if(d.length > 1)
 		{
 			for(let j = 0; j < d.length; j++)
