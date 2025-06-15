@@ -16,8 +16,40 @@ console.log('   Fred och framsteg     ', c_fill);
 console.log(c_fill);
 console.log('☆                       ☆', c_fill);
 
-function sleep(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+function sleep(ms: number)
+{
+	return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
+interface IQueue<T>
+{
+	enqueue(item: T): void;
+	dequeue(): T | undefined;
+	size(): number;
+}
+
+class Queue<T> implements IQueue<T>
+{
+	private storage: T[] = [];
+
+	constructor(private capacity: number = Infinity) {}
+
+	enqueue(item: T): void
+	{
+		if (this.size() === this.capacity)
+		{
+			throw Error("Queue has reached max capacity, you cannot add more items");
+		}
+		this.storage.push(item);
+	}
+	dequeue(): T | undefined
+	{
+		return this.storage.shift();
+	}
+	size(): number
+	{
+		return this.storage.length;
+	}
 }
 
 const usbPort = new SerialPort(
@@ -87,6 +119,8 @@ let pause: boolean = false;
 let pauseMap: IMap;
 let completeDelegate: any = null;
 
+const log = new Queue<string>();
+
 pauseOffset.x = 5;
 pauseOffset.y = 5;
 pauseOffset.z = 5;
@@ -94,7 +128,10 @@ pauseOffset.z = 5;
 if(DEBUG_NO_SPIN)
 	rpm = 0;
 
-setInterval(()=> { 
+setInterval(()=> {
+	while(0 < log.size())
+		console.log(log.dequeue);
+
 	if(pause)
 	{
 		fs.readFile('data/pause.txt', 'utf8', (error: any, data: string) =>
@@ -259,19 +296,19 @@ async function NextCommand(): Promise<void>
 	}
 }
 
-async function Send(command: string, index: number, length: number, status: string = 'Kommando'): Promise<void>
+async function Send(command: string, index: number, length: number): Promise<void>
 {
 	if(command == "PAUSE")
 	{
 		fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
-		Log(status, command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
+		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
 		pause = true;
 		return;
 	}
 
 	usbPort.write(command + '\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
-		Log(status, command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
+		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
 
 		const d = command.split(' ');
 		if(d.length > 1)
@@ -298,7 +335,7 @@ function Pad(num: number, size: number)
 
 function Log(status: string, data: string)
 {
-	console.log((c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + status + ': ' + data + c_fill).replace('\n', ''));
+	log.enqueue(c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + status + ': ' + data + c_fill);
 }
 
 function WorkTime(): string
