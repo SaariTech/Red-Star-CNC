@@ -40,9 +40,7 @@ export function Connect(readyCallback: any)
 				NextCommand();
 			}
 			else
-			{
 				Log('Maskin', data + c_fill);
-			}
 		});
 		console.log(c_fill);
 		console.log('  USB Port:', usbPort.path + c_fill);
