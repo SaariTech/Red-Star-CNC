@@ -68,11 +68,11 @@ export function Connect(readyCallback: any)
 		{
 			if(data.indexOf('$') == -1)
 			{
-				Log('Mottagen', data + c_fill);
+				Log('Mottagen', data);
 				NextCommand();
 			}
 			else
-				Log('Maskin', data + c_fill);
+				Log('Maskin', data);
 		});
 		console.log(c_fill);
 		console.log('  USB Port:', usbPort.path + c_fill);
@@ -312,14 +312,14 @@ async function Send(command: string, index: number, length: number): Promise<voi
 	if(command == "PAUSE")
 	{
 		fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
-		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString() + c_fill);
+		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
 		pause = true;
 		return;
 	}
 
 	usbPort.write(command + '\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
-		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString() + c_fill);
+		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
 
 		const d = command.split(' ');
 		if(d.length > 1)
