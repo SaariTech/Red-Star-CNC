@@ -8,6 +8,8 @@ const c_yellow = "\x1b[33m";
 const c_white = "\x1b[37m";
 const c_fill = '\x1B[K';
 
+let date_start;
+
 console.log('☆                       ☆', c_fill);
 console.log(c_fill);
 console.log('   Fred och framsteg     ', c_fill);
@@ -51,6 +53,7 @@ export function Connect(readyCallback: any)
 						console.log('', c_fill);
 						setTimeout(() => {
 							console.log('', c_fill);
+							date_start = new Date(Date.now());
 							readyCallback();
 						}, 1000);				
 					}, 1000);
@@ -290,7 +293,18 @@ function Pad(num: number, size: number)
 
 function Log(status: string, data: string)
 {
-	console.log(c_white + c_yellow + ' ' + DateNow() + ' ' + c_white + status + ':', data + c_fill);
+	console.log(c_white + c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + c_white + status + ':', data + c_fill);
+}
+
+function WorkTime(): string
+{
+	const date = new Date(Date.now() - date_start);
+
+	const hours = (date.getHours() - 1).toString().padStart(2, '0');
+	const minutes = date.getMinutes().toString().padStart(2, '0');
+	const seconds = date.getSeconds().toString().padStart(2, '0');
+
+	return `${hours}:${minutes}:${seconds}`;
 }
 
 function DateNow(): string
