@@ -312,7 +312,7 @@ async function Send(command: string, index: number, length: number): Promise<voi
 	if(command == "PAUSE")
 	{
 		fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
-		Log('Kommando', command + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
+		Log('Kommando', command + ' | ' + Pad((index + 1) + ' ' + length.toString().length) + ' / ' + length.toString());
 		pause = true;
 		return;
 	}
@@ -321,7 +321,7 @@ async function Send(command: string, index: number, length: number): Promise<voi
 
 	usbPort.write(command + '\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
-		Log('Kommando', cmd + ' | ' + Pad((index + 1), length.toString().length) + ' / ' + length.toString());
+		Log('Kommando', cmd + ' | ' + Pad((index + 1) + ' ' + length.toString().length) + ' / ' + length.toString());
 
 		const d = cmd.split(' ');
 		if(d.length > 1)
@@ -348,9 +348,9 @@ function Pad(num: number, size: number): string
 
 function Log(status: string, data: string)
 {
-	//log.enqueue(c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + ' ' + status + ': ' + data + c_fill);
-	log.enqueue(status + ': ' + data);
-	log.enqueue(DateNow() + ' | ' + WorkTime());
+	log.enqueue(c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + ' ' + status + ': ' + data + c_fill);
+	//log.enqueue(status + ': ' + data);
+	//log.enqueue(DateNow() + ' | ' + WorkTime());
 }
 
 function WorkTime(): string
