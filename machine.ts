@@ -317,7 +317,7 @@ async function Send(command: string, index: number, length: number): Promise<voi
 		return;
 	}
 
-	const cmd: string = command;
+	const cmd: string = command.replace('\n', '');
 
 	usbPort.write(command + '\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
