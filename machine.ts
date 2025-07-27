@@ -69,17 +69,19 @@ export function Connect(readyCallback: any)
 			if(data.indexOf('$') != -1)
 			{
 				Log('Maskin', data);
-				if(commands.length > 0)
-					NextCommand();
 			}
 			
 			if(data[0] == '<')
 			{
 				Log('Maskin', data);
+				machineStatus = data;
 			}
 			else if(!isBusy)
 			{
+				Log('Next', 'test');
 				Log('Maskin', data);
+				if(commands.length > 0)
+					NextCommand();
 			}
 		});
 		console.log(c_fill);
@@ -339,34 +341,32 @@ async function Send(command: string, index: number, length: number): Promise<voi
 		return;
 	}
 
-	setTimeout(() => {
-		usbPort.write(command + '\r\n', (err: Error | null) => {
-			if (err) return Log('Fel: ', err.message);
-			Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
-			isBusy = false;
-	
-			const d = command.split(' ');
-			if(d.length > 1)
-			{
-				for(let j = 0; j < d.length; j++)
-				{
-					switch(d[j][0])
-					{
-						case 'X': lastMap.x = Number(d[j].replace('X', '')); break;
-						case 'Y': lastMap.y = Number(d[j].replace('Y', '')); break;
-						case 'Z': lastMap.z = Number(d[j].replace('Z', '')); break;
-					}
-				}
-			}
-		});
-	}, 50);
-}
-
-async function CheckStatus(command: string, index: number, length: number): Promise<void>
-{
 	usbPort.write('?', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
+		
+		setTimeout(() => {
+			usbPort.write(command + '\r\n', (err: Error | null) => {
+				if (err) return Log('Fel: ', err.message);
+				Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
+				isBusy = false;
+		
+				const d = command.split(' ');
+				if(d.length > 1)
+				{
+					for(let j = 0; j < d.length; j++)
+					{
+						switch(d[j][0])
+						{
+							case 'X': lastMap.x = Number(d[j].replace('X', '')); break;
+							case 'Y': lastMap.y = Number(d[j].replace('Y', '')); break;
+							case 'Z': lastMap.z = Number(d[j].replace('Z', '')); break;
+						}
+					}
+				}
+			});
+		}, 50);
 	});
+
 }
 
 function Pad(num: number, size: number): string
