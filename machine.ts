@@ -323,7 +323,7 @@ async function Send(command: string, index: number, length: number): Promise<voi
 		return;
 	}
 
-	usbPort.write(command + '\r\n', (err: Error | null) => {
+	usbPort.write(command, (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
 		Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
 
