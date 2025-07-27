@@ -67,7 +67,7 @@ export function Connect(readyCallback: any)
 		usbPort.on('data', function(data: string)
 		{
 			Log('Maskin', data);
-			if(commands.length > 0)
+			if(commands.length > 0 && !isBusy)
 				NextCommand();
 		});
 		console.log(c_fill);
@@ -114,6 +114,7 @@ let map: IMap[][] = [];
 let pause: boolean = false;
 let pauseMap: IMap;
 let completeDelegate: any = null;
+let isBusy: boolean = false;
 
 const unsupported: string[] = [
 	'M6'
@@ -140,7 +141,7 @@ setInterval(()=> {
 
 		fs.readFile('data/pause.txt', 'utf8', (error: any, data: string) =>
 		{
-			if(data == '0')
+			if(data == '0' && !isBusy)
 			{
 				pause = false;
 				NextCommand();
@@ -294,6 +295,7 @@ export function DrawMap()
 
 async function NextCommand(): Promise<void>
 {
+	isBusy = true;
 	commandIndex++;
 	if(commandIndex < commands.length - 1)
 	{
@@ -309,6 +311,7 @@ async function NextCommand(): Promise<void>
 			completeCallback();
 		}
 
+		usbPort.close();
 		process.exit(1)
 	}
 }
@@ -323,24 +326,27 @@ async function Send(command: string, index: number, length: number): Promise<voi
 		return;
 	}
 
-	usbPort.write(command + '\r\n', (err: Error | null) => {
-		if (err) return Log('Fel: ', err.message);
-		Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
-
-		const d = command.split(' ');
-		if(d.length > 1)
-		{
-			for(let j = 0; j < d.length; j++)
+	setTimeout(() => {
+		isBusy = false;
+		usbPort.write(command + '\r\n', (err: Error | null) => {
+			if (err) return Log('Fel: ', err.message);
+			Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
+	
+			const d = command.split(' ');
+			if(d.length > 1)
 			{
-				switch(d[j][0])
+				for(let j = 0; j < d.length; j++)
 				{
-					case 'X': lastMap.x = Number(d[j].replace('X', '')); break;
-					case 'Y': lastMap.y = Number(d[j].replace('Y', '')); break;
-					case 'Z': lastMap.z = Number(d[j].replace('Z', '')); break;
+					switch(d[j][0])
+					{
+						case 'X': lastMap.x = Number(d[j].replace('X', '')); break;
+						case 'Y': lastMap.y = Number(d[j].replace('Y', '')); break;
+						case 'Z': lastMap.z = Number(d[j].replace('Z', '')); break;
+					}
 				}
 			}
-		}
-	});
+		});
+	}, 5);
 }
 
 function Pad(num: number, size: number): string
