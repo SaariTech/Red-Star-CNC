@@ -313,7 +313,7 @@ async function NextCommand(): Promise<void>
 
 async function Send(command: string, index: number, length: number): Promise<void>
 {
-	console.log(command);
+	console.log(!command);
 
 	if(command == "PAUSE")
 	{
