@@ -323,6 +323,8 @@ async function Send(command: string, index: number, length: number): Promise<voi
 
 	const cmd: string = command.replace('\n', '');
 
+	console.log(cmd.length);
+
 	usbPort.write(command + '\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
 		Log('Kommando', cmd + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
