@@ -341,7 +341,7 @@ async function Send(command: string, index: number, length: number): Promise<voi
 		return;
 	}
 
-	usbPort.write('?', (err: Error | null) => {
+	usbPort.write('?' + '\r\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
 		
 		setTimeout(() => {
