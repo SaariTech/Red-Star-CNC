@@ -182,6 +182,8 @@ export function ExpandFromFile(file: string, callback: any)
 
 		for (let i = 0; i < gcode.length; i++)
 		{
+			gcode[i] = gcode[i].replace('\r', '');
+
 			if(gcode[i].indexOf('(') != -1 || !gcode[i] || gcode[i].length == 1)
 				continue;
 			else if(gcode[i].indexOf(';') != -1)
