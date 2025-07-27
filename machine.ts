@@ -349,11 +349,12 @@ function Pad(num: number, size: number): string
 	return s.toString();
 }
 
-function Log(status: string, data: string)
+function Log(status: any, data: string)
 {
 	//log.enqueue(c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + ' ' + status + ': ' + data + c_fill);
 	log.enqueue(c_yellow + ' ' + status + ': ' + data);
-	log.enqueue(DateNow() + ' | ' + WorkTime());
+	console.log(status);
+	log.enqueue(c_white + DateNow() + ' | ' + WorkTime());
 }
 
 function WorkTime(): string
