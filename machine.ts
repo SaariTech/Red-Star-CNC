@@ -71,9 +71,9 @@ export function Connect(readyCallback: any)
 				Log('Maskin', data);
 			}
 			
+			Log('Maskin', data);
 			if(data[0] == '<')
 			{
-				Log('Maskin', data);
 				machineStatus = data;
 			}
 			else if(!isBusy)
