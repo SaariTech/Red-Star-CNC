@@ -67,7 +67,8 @@ export function Connect(readyCallback: any)
 		usbPort.on('data', function(data: string)
 		{
 			Log('Maskin', data);
-			NextCommand();
+			if(commands.length > 0)
+				NextCommand();
 		});
 		console.log(c_fill);
 		console.log('  USB Port:', usbPort.path + c_fill);
