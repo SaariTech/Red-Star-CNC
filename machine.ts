@@ -350,11 +350,11 @@ function Pad(num: number, size: number): string
 	return s.toString();
 }
 
-function Log(status: any, data: string)
+function Log(status: string, data: string)
 {
 	//log.enqueue(c_yellow + ' ' + DateNow() + ' | ' + WorkTime() + ' ' + c_white + ' ' + status + ': ' + data + c_fill);
-	log.enqueue(c_yellow + ' ' + status + ': ' + data);
-	console.log(status);
+	log.enqueue(c_yellow + ' ' + status);
+	log.enqueue(c_yellow + ' ' + data);
 	log.enqueue(c_white + DateNow() + ' | ' + WorkTime());
 }
 
