@@ -352,7 +352,12 @@ function Pad(num: number, size: number): string
 
 function Log(status: string, data: string)
 {
-	log.enqueue(c_yellow + DateNow() + ' | ' + WorkTime() + ' ' + c_white + ' ' + status + ': ' + data + c_fill);
+	let workTime = WorkTime();
+
+	if(workTime.indexOf('NaN') != -1)
+		workTime = '00:00:00';
+
+	log.enqueue(c_yellow + DateNow() + ' | ' + workTime + ' ' + c_white + ' ' + status + ': ' + data + c_fill);
 }
 
 function WorkTime(): string
