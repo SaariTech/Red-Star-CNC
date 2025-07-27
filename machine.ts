@@ -178,11 +178,9 @@ export function ExpandFromFile(file: string, callback: any)
 		lastMap = { x: 0, y: 0, z: 0 };
 
 		const gcode: string[] = data.split('\n');
-		let i = 0;
-
 		let haveSpinlde = false;
 
-		for (; i < gcode.length; i++)
+		for (let i = 0; i < gcode.length; i++)
 		{
 			if(gcode[i].indexOf('(') != -1 || !gcode[i])
 				continue;
@@ -297,7 +295,7 @@ async function NextCommand(): Promise<void>
 	commandIndex++;
 	if(commandIndex < commands.length - 1)
 	{
-		Send(commands[commandIndex].toString(), commandIndex, commands.length);
+		Send(commands[commandIndex], commandIndex, commands.length);
 	}
 	else
 	{
@@ -315,6 +313,8 @@ async function NextCommand(): Promise<void>
 
 async function Send(command: string, index: number, length: number): Promise<void>
 {
+	console.log(command);
+
 	if(command == "PAUSE")
 	{
 		fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
