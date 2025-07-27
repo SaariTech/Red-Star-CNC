@@ -66,13 +66,8 @@ export function Connect(readyCallback: any)
 	{
 		usbPort.on('data', function(data: string)
 		{
-			if(data.indexOf('$') == -1)
-			{
-				Log('Maskin', data);
-				NextCommand();
-			}
-			else
-				Log('Maskin', data);
+			Log('Maskin', data);
+			NextCommand();
 		});
 		console.log(c_fill);
 		console.log('  USB Port:', usbPort.path + c_fill);
