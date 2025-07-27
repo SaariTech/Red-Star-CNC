@@ -323,17 +323,11 @@ async function Send(command: string, index: number, length: number): Promise<voi
 		return;
 	}
 
-	const cmd: string = command.replace('\n', '');
-
-	console.log(cmd.length);
-	for(let i = 0; i < cmd.length; i++)
-		console.log(cmd[i]);
-
 	usbPort.write(command + '\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
-		Log('Kommando', cmd + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
+		Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
 
-		const d = cmd.split(' ');
+		const d = command.split(' ');
 		if(d.length > 1)
 		{
 			for(let j = 0; j < d.length; j++)
