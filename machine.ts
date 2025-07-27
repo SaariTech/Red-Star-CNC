@@ -231,6 +231,8 @@ export function ExpandFromFile(file: string, callback: any)
 
 				AddCommands(buildString);
 			}
+			else
+				AddCommands(gcode[i]);
 		}
 
 		if(!haveSpinlde)
