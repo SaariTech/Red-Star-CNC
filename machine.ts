@@ -349,7 +349,7 @@ async function Send(command: string, index: number, length: number): Promise<voi
 				}
 			}
 		});
-	}, 5);
+	}, 50);
 }
 
 function Pad(num: number, size: number): string
