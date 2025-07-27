@@ -182,7 +182,7 @@ export function ExpandFromFile(file: string, callback: any)
 
 		for (let i = 0; i < gcode.length; i++)
 		{
-			if(gcode[i].indexOf('(') != -1 || !gcode[i])
+			if(gcode[i].indexOf('(') != -1 || !gcode[i] || gcode[i] == '')
 				continue;
 			else if(gcode[i].indexOf(';') != -1)
 			{
@@ -313,7 +313,7 @@ async function NextCommand(): Promise<void>
 
 async function Send(command: string, index: number, length: number): Promise<void>
 {
-	console.log(!command);
+	console.log(command == '');
 
 	if(command == "PAUSE")
 	{
