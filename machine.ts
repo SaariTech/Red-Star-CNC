@@ -252,7 +252,7 @@ export function ExpandFromFile(file: string, callback: any)
 		}
 
 
-		Log('Maskin', 'Utökat Gcode från "' + file + '"');
+		Log('Redstar', 'Utökat Gcode från "' + file + '"');
 		callback();
 	});
 }

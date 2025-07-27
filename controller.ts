@@ -44,17 +44,17 @@ function ReadNextFile()
 {
 	if(fileIndex < files.length)
 	{
-		Log('Maskin', files[fileIndex]);
+		Log('Redstar', files[fileIndex]);
 		if (files[fileIndex].indexOf('.gcode') != -1)
 			{
-				Log('Maskin', 'OK');
+				Log('Redstar', 'OK');
 				fileIndex++;
 				machine.ExpandFromFile('./gcode/' + files[fileIndex - 1], ReadNextFile);
 			}
 			else
 			{
 				fileIndex++;
-				Log('Maskin', 'Ignorerar ' + files[fileIndex - 1]);
+				Log('Redstar', 'Ignorerar ' + files[fileIndex - 1]);
 				ReadNextFile();
 			}
 		}
