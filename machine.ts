@@ -134,6 +134,9 @@ setInterval(()=> {
 
 	if(pause)
 	{
+		log.enqueue('Pause');
+		log.enqueue(DateNow() + ' | ' + WorkTime());
+
 		fs.readFile('data/pause.txt', 'utf8', (error: any, data: string) =>
 		{
 			if(data == '0')
