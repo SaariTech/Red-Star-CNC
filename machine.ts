@@ -68,7 +68,7 @@ export function Connect(readyCallback: any)
 		{
 			if(data.indexOf('$') == -1)
 			{
-				//Log('Mottagen', data);
+				Log('Maskin', data);
 				NextCommand();
 			}
 			else
