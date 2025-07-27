@@ -184,7 +184,7 @@ export function ExpandFromFile(file: string, callback: any)
 
 		for (; i < gcode.length; i++)
 		{
-			if(gcode[i].indexOf('(') != -1)
+			if(gcode[i].indexOf('(') != -1 || !gcode[i])
 				continue;
 			else if(gcode[i].indexOf(';') != -1)
 			{
