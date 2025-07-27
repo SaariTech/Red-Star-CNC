@@ -115,6 +115,10 @@ let pause: boolean = false;
 let pauseMap: IMap;
 let completeDelegate: any = null;
 
+const unsupported: string[] = [
+	'M6'
+];
+
 const log = new Queue<string>();
 
 pauseOffset.x = 5;
@@ -180,7 +184,7 @@ export function ExpandFromFile(file: string, callback: any)
 		{
 			gcode[i] = gcode[i].replace('\r', '');
 
-			if(gcode[i].indexOf('(') != -1 || !gcode[i] || gcode[i].length == 1)
+			if(gcode[i].indexOf('(') != -1 || !gcode[i] || gcode[i].length == 1 || unsupported.includes(gcode[i]))
 				continue;
 			else if(gcode[i].indexOf(';') != -1)
 			{
