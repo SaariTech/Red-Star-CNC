@@ -72,17 +72,8 @@ export function Connect(readyCallback: any)
 			}
 			
 			Log('Maskin', data);
-			if(data[0] == '<')
-			{
-				machineStatus = data;
-			}
-			else if(!isBusy)
-			{
-				Log('Next', 'test');
-				Log('Maskin', data);
-				if(commands.length > 0)
-					NextCommand();
-			}
+			if(commands.length > 0)
+				NextCommand();
 		});
 		console.log(c_fill);
 		console.log('  USB Port:', usbPort.path + c_fill);
@@ -128,11 +119,10 @@ let map: IMap[][] = [];
 let pause: boolean = false;
 let pauseMap: IMap;
 let completeDelegate: any = null;
-let isBusy: boolean = false;
-let machineStatus: string = '';
 
 const unsupported: string[] = [
-	'M6'
+	'M6',
+	'M0'
 ];
 
 const log = new Queue<string>();
@@ -148,7 +138,6 @@ setInterval(()=> {
 	while(0 < log.size())
 		console.log(log.dequeue());
 
-
 	if(pause)
 	{
 		log.enqueue('Pause');
@@ -156,7 +145,7 @@ setInterval(()=> {
 
 		fs.readFile('data/pause.txt', 'utf8', (error: any, data: string) =>
 		{
-			if(data == '0' && !isBusy)
+			if(data == '0')
 			{
 				pause = false;
 				NextCommand();
@@ -310,7 +299,6 @@ export function DrawMap()
 
 async function NextCommand(): Promise<void>
 {
-	isBusy = true;
 	commandIndex++;
 	if(commandIndex < commands.length - 1)
 	{
@@ -341,30 +329,23 @@ async function Send(command: string, index: number, length: number): Promise<voi
 		return;
 	}
 
-	usbPort.write('?' + '\r\n', (err: Error | null) => {
+	usbPort.write(command + '\r\n', (err: Error | null) => {
 		if (err) return Log('Fel: ', err.message);
-		
-		setTimeout(() => {
-			usbPort.write(command + '\r\n', (err: Error | null) => {
-				if (err) return Log('Fel: ', err.message);
-				Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
-				isBusy = false;
-		
-				const d = command.split(' ');
-				if(d.length > 1)
+		Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
+
+		const d = command.split(' ');
+		if(d.length > 1)
+		{
+			for(let j = 0; j < d.length; j++)
+			{
+				switch(d[j][0])
 				{
-					for(let j = 0; j < d.length; j++)
-					{
-						switch(d[j][0])
-						{
-							case 'X': lastMap.x = Number(d[j].replace('X', '')); break;
-							case 'Y': lastMap.y = Number(d[j].replace('Y', '')); break;
-							case 'Z': lastMap.z = Number(d[j].replace('Z', '')); break;
-						}
-					}
+					case 'X': lastMap.x = Number(d[j].replace('X', '')); break;
+					case 'Y': lastMap.y = Number(d[j].replace('Y', '')); break;
+					case 'Z': lastMap.z = Number(d[j].replace('Z', '')); break;
 				}
-			});
-		}, 50);
+			}
+		}
 	});
 
 }

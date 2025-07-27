@@ -11,7 +11,7 @@ const port = new SerialPort({
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
 port.on('open', () => {
-  console.log('Port öppen. Skriv ett kommando:');
+  console.log('Port öppen. $ för hjälp och ? för maskin status. Skriv ett kommando:');
   rl.prompt();
 });
 
