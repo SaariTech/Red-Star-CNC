@@ -182,7 +182,7 @@ export function ExpandFromFile(file: string, callback: any)
 
 		for (let i = 0; i < gcode.length; i++)
 		{
-			if(gcode[i].indexOf('(') != -1 || !gcode[i] || gcode[i] == '')
+			if(gcode[i].indexOf('(') != -1 || !gcode[i] || gcode[i].length == 1)
 				continue;
 			else if(gcode[i].indexOf(';') != -1)
 			{
@@ -313,8 +313,6 @@ async function NextCommand(): Promise<void>
 
 async function Send(command: string, index: number, length: number): Promise<void>
 {
-	console.log(command == '');
-
 	if(command == "PAUSE")
 	{
 		fs.writeFileSync("data/pause.txt", "1", { flag: "w" });
