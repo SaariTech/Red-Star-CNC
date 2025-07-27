@@ -66,7 +66,11 @@ export function Connect(readyCallback: any)
 	{
 		usbPort.on('data', function(data: string)
 		{
-			if(!isBusy)
+			if(data[0] == '<')
+			{
+				Log('Maskin', data);
+			}
+			else if(!isBusy)
 			{
 				Log('Maskin', data);
 				if(commands.length > 0)
@@ -118,6 +122,7 @@ let pause: boolean = false;
 let pauseMap: IMap;
 let completeDelegate: any = null;
 let isBusy: boolean = false;
+let machineStatus: string = '';
 
 const unsupported: string[] = [
 	'M6'
@@ -330,25 +335,30 @@ async function Send(command: string, index: number, length: number): Promise<voi
 	}
 
 	setTimeout(() => {
-		isBusy = false;
-		usbPort.write(command + '\r\n', (err: Error | null) => {
+		usbPort.write('?', (err: Error | null) => {
 			if (err) return Log('Fel: ', err.message);
-			Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
-	
-			const d = command.split(' ');
-			if(d.length > 1)
-			{
-				for(let j = 0; j < d.length; j++)
+
+			isBusy = false;
+			usbPort.write(command + '\r\n', (err: Error | null) => {
+				if (err) return Log('Fel: ', err.message);
+				Log('Kommando', command + ' | ' + Pad(index + 1, length.toString().length) + ' / ' + length.toString());
+		
+				const d = command.split(' ');
+				if(d.length > 1)
 				{
-					switch(d[j][0])
+					for(let j = 0; j < d.length; j++)
 					{
-						case 'X': lastMap.x = Number(d[j].replace('X', '')); break;
-						case 'Y': lastMap.y = Number(d[j].replace('Y', '')); break;
-						case 'Z': lastMap.z = Number(d[j].replace('Z', '')); break;
+						switch(d[j][0])
+						{
+							case 'X': lastMap.x = Number(d[j].replace('X', '')); break;
+							case 'Y': lastMap.y = Number(d[j].replace('Y', '')); break;
+							case 'Z': lastMap.z = Number(d[j].replace('Z', '')); break;
+						}
 					}
 				}
-			}
+			});
 		});
+
 	}, 50);
 }
 
