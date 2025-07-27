@@ -129,8 +129,11 @@ if(DEBUG_NO_SPIN)
 	rpm = 0;
 
 setInterval(()=> {
+	console.log(log.size());
+	
 	while(0 < log.size())
 		console.log(log.dequeue());
+
 
 	if(pause)
 	{
